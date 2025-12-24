@@ -41,6 +41,8 @@ module.exports = {
 				title: "title 3s ease-out forwards",
 				"fade-left": "fade-left 3s ease-in-out forwards",
 				"fade-right": "fade-right 3s ease-in-out forwards",
+				aurora: "aurora 18s ease-in-out infinite alternate",
+				blob: "blob 22s ease-in-out infinite",
 			},
 			keyframes: {
 				"fade-in": {
@@ -100,6 +102,17 @@ module.exports = {
 						"line-height": "100%",
 						opacity: "100%",
 					},
+				},
+				aurora: {
+					"0%": { transform: "translate3d(-6%, -2%, 0) scale(1)" },
+					"50%": { transform: "translate3d(4%, 3%, 0) scale(1.05)" },
+					"100%": { transform: "translate3d(8%, -1%, 0) scale(1.1)" },
+				},
+				blob: {
+					"0%": { transform: "translate(0px, 0px) scale(1)" },
+					"33%": { transform: "translate(30px, -40px) scale(1.05)" },
+					"66%": { transform: "translate(-20px, 20px) scale(0.98)" },
+					"100%": { transform: "translate(0px, 0px) scale(1)" },
 				},
 			},
 		},

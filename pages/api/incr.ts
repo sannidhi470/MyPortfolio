@@ -1,7 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-const redis = Redis.fromEnv();
 export const config = {
   runtime: "edge",
 };
@@ -22,6 +21,22 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
   if (!slug) {
     return new NextResponse("Slug not found", { status: 400 });
   }
+
+  const hasUpstashEnv =
+    !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!hasUpstashEnv) {
+    // Allow the site to run without Upstash configured.
+    return new NextResponse(null, { status: 202 });
+  }
+
+  let redis: Redis;
+  try {
+    redis = Redis.fromEnv();
+  } catch {
+    // Allow the site to run without Upstash configured.
+    return new NextResponse(null, { status: 202 });
+  }
+
   const ip = req.ip;
   if (ip) {
     // Hash the IP in order to not store it directly in your db.

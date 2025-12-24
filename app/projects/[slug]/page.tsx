@@ -14,8 +14,6 @@ type Props = {
   };
 };
 
-const redis = Redis.fromEnv();
-
 export async function generateStaticParams(): Promise<Props["params"][]> {
   return allProjects
     .filter((p) => p.published)
@@ -32,17 +30,31 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
-  const views =
-    (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+  let views = 0;
+  const hasUpstashEnv =
+    !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (hasUpstashEnv) {
+    try {
+      const redis = Redis.fromEnv();
+      views =
+        (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+    } catch {
+      views = 0;
+    }
+  }
 
   return (
-    <div className="bg-zinc-50 min-h-screen">
+    <div className="relative min-h-screen">
       <Header project={project} views={views} />
       <ReportView slug={project.slug} />
 
-      <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={project.body.code} />
-      </article>
+      <main className="px-6 py-10 mx-auto max-w-4xl lg:py-14">
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/30 p-6 md:p-10">
+          <article className="prose prose-invert prose-zinc prose-quoteless max-w-none">
+            <Mdx code={project.body.code} />
+          </article>
+        </div>
+      </main>
     </div>
   );
 }

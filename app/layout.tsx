@@ -3,19 +3,22 @@ import { Inter } from "@next/font/google";
 import LocalFont from "@next/font/local";
 import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
+import { Background } from "./components/background";
+import Particles from "./components/particles";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "Sannidhi Shetty",
+    template: "%s | Sannidhi Shetty",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description:
+    "Full Stack Developer specializing in Java/Spring Boot, Node.js, and modern frontend frameworks (React/Angular). Based in Montreal, Canada.",
   openGraph: {
-    title: "chronark.com",
+    title: "Sannidhi Shetty",
     description:
-      "Co-founder of unkey.dev and founder of planetfall.io",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
+      "Full Stack Developer specializing in Java/Spring Boot, Node.js, and modern frontend frameworks (React/Angular).",
+    siteName: "Sannidhi Shetty",
     images: [
       {
         url: "https://chronark.com/og.png",
@@ -38,7 +41,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Chronark",
+    title: "Sannidhi Shetty",
     card: "summary_large_image",
   },
   icons: {
@@ -69,7 +72,14 @@ export default function RootLayout({
         className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
           }`}
       >
-        {children}
+        <Background />
+        <Particles
+          className="fixed inset-0 -z-10 opacity-70"
+          quantity={100}
+          staticity={70}
+          ease={70}
+        />
+        <div className="relative min-h-screen">{children}</div>
       </body>
     </html>
   );
