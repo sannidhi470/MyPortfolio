@@ -1,14 +1,16 @@
 import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 import { createHash } from "node:crypto";
+import nodemailer from "nodemailer";
+
+export const runtime = "nodejs";
 
 type ContactPayload = {
 	firstName?: string;
 	lastName?: string;
 	email?: string;
 	message?: string;
-	// Honeypot (should be empty). Bots often fill it.
-	company?: string;
+	company?: string; // honeypot
 };
 
 function isNonEmptyString(v: unknown): v is string {
@@ -56,9 +58,7 @@ async function applyRateLimit(request: Request) {
 		await redis.expire(key, windowSeconds);
 	}
 
-	if (count > limit) {
-		return { ok: false as const };
-	}
+	if (count > limit) return { ok: false as const };
 	return { ok: true as const };
 }
 
@@ -114,9 +114,22 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const resendApiKey = process.env.RESEND_API_KEY;
-	if (!resendApiKey) {
-		// Allow the site to run without email configured.
+	// Gmail SMTP (recommended env var names)
+	const smtpHost =
+		process.env.SMTP_HOST ?? (process.env["spring.mail.host"] as string | undefined);
+	const smtpPortRaw =
+		process.env.SMTP_PORT ?? (process.env["spring.mail.port"] as string | undefined);
+	const smtpUser =
+		process.env.SMTP_USER ??
+		(process.env["spring.mail.username"] as string | undefined);
+	const smtpPass =
+		process.env.SMTP_PASS ??
+		(process.env["spring.mail.password"] as string | undefined);
+
+	const smtpPort = smtpPortRaw ? Number.parseInt(smtpPortRaw, 10) : undefined;
+
+	// Allow the site to run without SMTP configured.
+	if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
 		return NextResponse.json(
 			{ ok: true, sent: false, reason: "not_configured" },
 			{ status: 202 },
@@ -124,7 +137,7 @@ export async function POST(request: Request) {
 	}
 
 	const to = process.env.CONTACT_TO_EMAIL ?? "sannidhishetty9@gmail.com";
-	const from = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
+	const from = process.env.CONTACT_FROM_EMAIL ?? smtpUser;
 
 	const name = normalizeOneLine(`${firstName} ${lastName}`.trim());
 	const subject = `Portfolio contact${name ? ` from ${name}` : ""}`;
@@ -136,25 +149,29 @@ export async function POST(request: Request) {
 		message,
 	].join("\n");
 
-	const resp = await fetch("https://api.resend.com/emails", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${resendApiKey}`,
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
+	try {
+		const transporter = nodemailer.createTransport({
+			host: smtpHost,
+			port: smtpPort,
+			secure: smtpPort === 465, // true for 465, false for 587 (STARTTLS)
+			requireTLS: smtpPort === 587,
+			auth: { user: smtpUser, pass: smtpPass },
+		});
+
+		await transporter.sendMail({
 			from,
 			to,
 			subject,
 			text,
-			reply_to: email,
-		}),
-	});
-
-	if (!resp.ok) {
-		const detail = await resp.text().catch(() => "");
+			replyTo: email,
+		});
+	} catch (err) {
 		return NextResponse.json(
-			{ ok: false, error: "send_failed", detail: detail.slice(0, 1000) },
+			{
+				ok: false,
+				error: "send_failed",
+				detail: err instanceof Error ? err.message : "unknown_error",
+			},
 			{ status: 502 },
 		);
 	}
