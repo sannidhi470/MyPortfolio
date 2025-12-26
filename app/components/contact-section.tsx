@@ -9,6 +9,7 @@ type FormState = {
   lastName: string;
   email: string;
   message: string;
+  company: string; // honeypot
 };
 
 function encodeMailto(value: string) {
@@ -21,7 +22,15 @@ export function ContactSection() {
     lastName: "",
     email: "",
     message: "",
+    company: "",
   });
+
+  const [status, setStatus] = useState<
+    | { kind: "idle" }
+    | { kind: "sending" }
+    | { kind: "success" }
+    | { kind: "error"; message: string }
+  >({ kind: "idle" });
 
   const mailtoHref = useMemo(() => {
     const name = `${form.firstName} ${form.lastName}`.trim();
@@ -37,10 +46,38 @@ export function ContactSection() {
     return `mailto:sannidhishetty9@gmail.com?subject=${encodeMailto(subject)}&body=${encodeMailto(body)}`;
   }, [form.email, form.firstName, form.lastName, form.message]);
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    // Hand off to user's email client.
-    window.location.href = mailtoHref;
+    setStatus({ kind: "sending" });
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      // If email sending isn't configured, fall back to mailto (so the form still "works").
+      if (res.status === 202) {
+        setStatus({ kind: "idle" });
+        window.location.href = mailtoHref;
+        return;
+      }
+
+      const data = (await res.json().catch(() => null)) as
+        | { ok: true; sent: true }
+        | { ok: false; error?: string };
+
+      if (!res.ok || !data || ("ok" in data && data.ok === false)) {
+        setStatus({ kind: "error", message: "Failed to send. Please try again." });
+        return;
+      }
+
+      setStatus({ kind: "success" });
+      setForm({ firstName: "", lastName: "", email: "", message: "", company: "" });
+    } catch {
+      setStatus({ kind: "error", message: "Failed to send. Please try again." });
+    }
   };
 
   return (
@@ -87,6 +124,17 @@ export function ContactSection() {
                 />
               </div>
 
+              {/* Honeypot: hidden field bots fill, humans won't. */}
+              <input
+                value={form.company}
+                onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))}
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
+
               <input
                 value={form.email}
                 onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
@@ -109,10 +157,18 @@ export function ContactSection() {
 
               <button
                 type="submit"
+                disabled={status.kind === "sending"}
                 className="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-10 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 transition"
               >
-                Send Message
+                {status.kind === "sending" ? "Sending..." : "Send Message"}
               </button>
+
+              {status.kind === "success" ? (
+                <div className="text-sm text-emerald-300">Message sent — thank you!</div>
+              ) : null}
+              {status.kind === "error" ? (
+                <div className="text-sm text-red-300">{status.message}</div>
+              ) : null}
             </form>
 
             {/* Icon */}

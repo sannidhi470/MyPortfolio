@@ -18,6 +18,26 @@ git clone https://github.com/chronark/chronark.com.git
 cd chronark.com
 ```
 
+## Contact Form Email (Optional)
+
+This site includes a contact form that POSTs to `POST /api/contact`.
+
+- If email is configured, it sends an email via Resend.
+- If not configured, it falls back to opening the visitor’s email client (`mailto:`), so the form still works in dev.
+
+Add these to your `.env.local` (or Vercel project env vars):
+
+```sh-session
+# Required to send emails
+RESEND_API_KEY=...
+
+# Where to deliver contact emails (defaults to sannidhishetty9@gmail.com)
+CONTACT_TO_EMAIL=sannidhishetty9@gmail.com
+
+# Must be a verified sender in Resend (for quick testing you can use onboarding@resend.dev)
+CONTACT_FROM_EMAIL=onboarding@resend.dev
+```
+
 
 Create a `.env` file similar to [`.env.example`](https://github.com/chronark/chronark.com/blob/main/.env.example).
 

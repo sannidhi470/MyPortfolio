@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import Image, { type StaticImageData } from "next/image";
 
 export type TimelineItem = {
@@ -93,7 +93,6 @@ export function ExperienceTimeline({ items }: { items: TimelineItem[] }) {
                             <span className="inline-flex items-center rounded-full border border-indigo-400/20 bg-indigo-500/10 px-2 py-0.5 text-[11px] font-semibold text-indigo-200">
                               {item.when}
                             </span>
-                            <ChevronRight className="mt-0.5 h-4 w-4 text-zinc-500 transition group-hover:text-zinc-200 group-hover:translate-x-0.5" />
                           </div>
                           <div className="mt-2 text-[15px] md:text-base font-semibold text-zinc-100 leading-snug">
                             {item.org}

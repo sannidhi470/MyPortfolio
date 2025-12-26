@@ -1,6 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import { ExternalLink, Github, Sparkles, Shield, BrainCircuit } from "lucide-react";
+import {
+  BrainCircuit,
+  ExternalLink,
+  Github,
+  Layout,
+  Shield,
+  Sparkles,
+} from "lucide-react";
 
 type Project = {
   title: string;
@@ -20,6 +27,14 @@ const PROJECTS: Project[] = [
     liveUrl: "https://habit-tracker-sooty-nine.vercel.app",
     accent: "indigo",
     Icon: Shield,
+  },
+  {
+    title: "My Portfolio",
+    description:
+      "My personal portfolio website built with Next.js + React + Tailwind, featuring projects, experience, certifications, and contact.",
+    repository: "sannidhi470/MyPortfolio",
+    accent: "emerald",
+    Icon: Layout,
   },
   {
     title: "Warzone (Risk Game)",
@@ -80,9 +95,6 @@ export function ProjectsSection() {
         <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl font-display">
           Projects
         </h2>
-        <p className="mt-3 text-sm md:text-base text-zinc-400">
-          A few personal builds I’m proud of — quick context + the repo.
-        </p>
       </div>
 
       <div className="mt-10 space-y-6 md:space-y-8">

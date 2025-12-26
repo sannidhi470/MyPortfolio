@@ -1,22 +1,8 @@
 import React from "react";
-import {
-  Braces,
-  Cloud,
-  Code2,
-  Database,
-  GitBranch,
-  Globe,
-  Layout,
-  Layers,
-  Monitor,
-  ShieldCheck,
-  TestTube2,
-  Wrench,
-} from "lucide-react";
 
 type Skill = {
   name: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  logoSrc: string;
   tone?: "indigo" | "emerald" | "amber" | "cyan" | "fuchsia" | "orange";
 };
 
@@ -39,7 +25,6 @@ function toneClasses(tone: Skill["tone"]) {
 }
 
 function SkillItem({ skill }: { skill: Skill }) {
-  const Icon = skill.Icon;
   return (
     <div className="flex flex-col items-center gap-2">
       <div
@@ -49,7 +34,14 @@ function SkillItem({ skill }: { skill: Skill }) {
           toneClasses(skill.tone),
         ].join(" ")}
       >
-        <Icon className="h-6 w-6" />
+        <img
+          src={skill.logoSrc}
+          alt={`${skill.name} logo`}
+          title={skill.name}
+          className="h-6 w-6 object-contain"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <div className="text-xs md:text-sm text-zinc-200/90">{skill.name}</div>
     </div>
@@ -80,39 +72,53 @@ function SkillCard({
 export function SkillsSection() {
   // Source: Sannidhi_Resume.pdf (Technical Skills)
   const backend: Skill[] = [
-    { name: "Java", Icon: Braces, tone: "amber" },
-    { name: "Spring Boot", Icon: Layers, tone: "emerald" },
-    { name: "Python", Icon: Braces, tone: "emerald" },
-    { name: "AWS", Icon: Cloud, tone: "amber" },
-    { name: "PostgreSQL", Icon: Database, tone: "indigo" },
-    { name: "MongoDB", Icon: Database, tone: "emerald" },
+    { name: "Java", logoSrc: "https://cdn.simpleicons.org/openjdk/ffffff", tone: "amber" },
+    { name: "Spring Boot", logoSrc: "https://cdn.simpleicons.org/springboot/ffffff", tone: "emerald" },
+    { name: "Python", logoSrc: "https://cdn.simpleicons.org/python/ffffff", tone: "emerald" },
+    {
+      name: "AWS",
+      logoSrc:
+        "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+      tone: "amber",
+    },
+    { name: "PostgreSQL", logoSrc: "https://cdn.simpleicons.org/postgresql/ffffff", tone: "indigo" },
+    { name: "MongoDB", logoSrc: "https://cdn.simpleicons.org/mongodb/ffffff", tone: "emerald" },
   ];
 
   const frontend: Skill[] = [
-    { name: "HTML", Icon: Code2, tone: "amber" },
-    { name: "CSS", Icon: Layout, tone: "cyan" },
-    { name: "JavaScript", Icon: Code2, tone: "amber" },
-    { name: "TypeScript", Icon: Code2, tone: "indigo" },
-    { name: "React", Icon: Monitor, tone: "cyan" },
-    { name: "Tailwind", Icon: Wrench, tone: "fuchsia" },
+    { name: "HTML", logoSrc: "https://cdn.simpleicons.org/html5/ffffff", tone: "amber" },
+    { name: "CSS", logoSrc: "https://cdn.simpleicons.org/css/ffffff", tone: "cyan" },
+    { name: "JavaScript", logoSrc: "https://cdn.simpleicons.org/javascript/ffffff", tone: "amber" },
+    { name: "TypeScript", logoSrc: "https://cdn.simpleicons.org/typescript/ffffff", tone: "indigo" },
+    { name: "React", logoSrc: "https://cdn.simpleicons.org/react/ffffff", tone: "cyan" },
+    { name: "Tailwind", logoSrc: "https://cdn.simpleicons.org/tailwindcss/ffffff", tone: "fuchsia" },
   ];
 
   const testing: Skill[] = [
-    { name: "JUnit", Icon: TestTube2, tone: "indigo" },
-    { name: "Mockito", Icon: ShieldCheck, tone: "emerald" },
-    { name: "Pytest", Icon: TestTube2, tone: "amber" },
-    { name: "Jest", Icon: TestTube2, tone: "fuchsia" },
-    { name: "Postman", Icon: Globe, tone: "orange" },
-    { name: "JMeter", Icon: TestTube2, tone: "cyan" },
+    { name: "JUnit", logoSrc: "https://cdn.simpleicons.org/junit5/ffffff", tone: "indigo" },
+    {
+      name: "Mockito",
+      logoSrc:
+        "https://cdn.jsdelivr.net/gh/mockito/mockito@main/config/javadoc/resources/org/mockito/logo.png",
+      tone: "emerald",
+    },
+    { name: "Pytest", logoSrc: "https://cdn.simpleicons.org/pytest/ffffff", tone: "amber" },
+    { name: "Jest", logoSrc: "https://cdn.simpleicons.org/jest/ffffff", tone: "fuchsia" },
+    { name: "Postman", logoSrc: "https://cdn.simpleicons.org/postman/ffffff", tone: "orange" },
+    { name: "JMeter", logoSrc: "https://cdn.simpleicons.org/apachejmeter/ffffff", tone: "cyan" },
   ];
 
   const tools: Skill[] = [
-    { name: "Git", Icon: GitBranch, tone: "amber" },
-    { name: "Docker", Icon: Cloud, tone: "cyan" },
-    { name: "Jira", Icon: Wrench, tone: "emerald" },
-    { name: "IntelliJ", Icon: Code2, tone: "fuchsia" },
-    { name: "VS Code", Icon: Monitor, tone: "cyan" },
-    { name: "Redis", Icon: Database, tone: "orange" },
+    { name: "Git", logoSrc: "https://cdn.simpleicons.org/git/ffffff", tone: "amber" },
+    { name: "Docker", logoSrc: "https://cdn.simpleicons.org/docker/ffffff", tone: "cyan" },
+    { name: "Jira", logoSrc: "https://cdn.simpleicons.org/jira/ffffff", tone: "emerald" },
+    { name: "IntelliJ", logoSrc: "https://cdn.simpleicons.org/intellijidea/ffffff", tone: "fuchsia" },
+    {
+      name: "VS Code",
+      logoSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/vscode/vscode-original.svg",
+      tone: "cyan",
+    },
+    { name: "Redis", logoSrc: "https://cdn.simpleicons.org/redis/ffffff", tone: "orange" },
   ];
 
   return (
