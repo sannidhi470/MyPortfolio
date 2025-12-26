@@ -1,27 +1,28 @@
 ---
 title: Audiobook Pipeline (Kampus Media)
-description: End-to-end audiobook generation pipeline with backend services and Angular tooling, supported by scalable AWS infrastructure, observability, and CI/CD automation.
+description: Production-grade audiobook processing workflow with a React 19 + TypeScript UI and backend services on Cloudflare Workers, integrating OCR + LLMs with job tracking in PostgreSQL.
 date: "2025-05-01"
 published: true
 ---
 
 ## Overview
 
-Worked as a Full Stack Developer building and maintaining an end-to-end audiobook pipeline, prioritizing **availability**, **performance**, and **operational reliability**.
+Worked as a Full Stack Developer building a production-grade platform to orchestrate an end-to-end audiobook processing workflow, prioritizing **reliability**, **security**, and **high-throughput processing**.
 
 ## What I did
 
-- Built and maintained backend services (Java/Spring Boot, Node.js) and frontend interfaces (Angular).
-- Architected AWS infrastructure (Lambda, S3, API Gateway, DynamoDB) to support high-performance APIs.
-- Implemented monitoring/telemetry (Grafana) and performance optimization to improve resiliency.
-- Containerized services with Docker and deployed on AWS ECS with automated CI/CD (GitHub).
-- Integrated AI model APIs to improve text extraction and chapter detection quality.
+- Built a React 19 + TypeScript UI (React Router DOM, Tailwind CSS) and backend services in Python and TypeScript on **Cloudflare Workers + Wrangler**.
+- Implemented **JWT authentication** and role-based API access, and stored user profiles + audiobook job metadata in **PostgreSQL**.
+- Designed high-throughput ingestion and processing APIs integrating **Mistral OCR** and **OpenAI** services to improve text extraction quality for downstream synthesis.
+- Containerized services with **Docker** and deployed on **AWS** to support large-scale PDF, OCR, and TTS workloads.
+- Managed code with Git, documented APIs/workflows using **MkDocs**, validated endpoints with Postman, and shared progress through reports and demos.
 
 ## Tech stack
 
-- **Backend**: Java, Spring Boot, Node.js
-- **Frontend**: Angular
-- **Cloud**: AWS (Lambda, S3, API Gateway, DynamoDB, ECS)
-- **Ops**: Docker, CI/CD, Grafana
+- **Frontend**: React 19, TypeScript, Tailwind CSS, React Router DOM
+- **Backend**: Python, TypeScript, Cloudflare Workers (Wrangler)
+- **Data**: PostgreSQL
+- **AI**: Mistral OCR, OpenAI
+- **Cloud/Ops**: AWS, Docker, Git, MkDocs, Postman
 
 

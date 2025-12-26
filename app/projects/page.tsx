@@ -51,9 +51,6 @@ export default async function ProjectsPage() {
           <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
             Projects
           </h2>
-          <p className="mt-4 text-zinc-400">
-            A mix of professional work and personal projects.
-          </p>
         </div>
         <div className="w-full h-px bg-zinc-800" />
 
@@ -66,11 +63,6 @@ export default async function ProjectsPage() {
             {published.map((project, idx) => (
               <Card key={project.slug}>
                 <div className="relative">
-                  {idx === 0 ? (
-                    <span className="absolute right-4 top-4 rounded-full border border-zinc-700 bg-zinc-950/40 px-2.5 py-1 text-[10px] font-medium tracking-wide text-zinc-300">
-                      Featured
-                    </span>
-                  ) : null}
                   <Article project={project} views={views[project.slug] ?? 0} />
                 </div>
               </Card>

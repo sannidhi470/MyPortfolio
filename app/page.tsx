@@ -1,12 +1,19 @@
-import Link from "next/link";
 import React from "react";
-import { Github, Linkedin, Mail } from "lucide-react";
-
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Experience", href: "/experience" },
-  { name: "Resume", href: "/Sannidhi_Resume.pdf" },
-];
+import Link from "next/link";
+import { Download } from "lucide-react";
+import { ExperienceTimeline, type TimelineItem } from "./components/experience-timeline";
+import { SkillsSection } from "./components/skills";
+import { CertificationsSection } from "./components/certifications";
+import { ContactSection } from "./components/contact-section";
+import { ProjectsSection } from "./components/projects-section";
+import { HomeNavigation } from "./components/home-nav";
+import ConcordiaLogo from "../CONCORDIA.png";
+import KampusMediaLogo from "../KAMPUS MEDIA.png";
+import NewgenLogo from "../NEWGEN.png";
+import SiesLogo from "../SIES.png";
+import DeloitteLogo from "../Screenshot 2025-12-26 at 10.40.37 am.png";
+import Image from "next/image";
+import ProfilePhoto from "../1739052285758.jpeg";
 
 export default function Home() {
   return (
@@ -20,26 +27,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(255,255,255,0.06),transparent_60%)]" />
       </div>
 
-      <nav className="my-8 md:my-10 animate-fade-in">
-        <ul className="flex items-center justify-center gap-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              target={item.href.endsWith(".pdf") ? "_blank" : undefined}
-              className="text-base md:text-lg duration-500 text-zinc-300 hover:text-zinc-100"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </ul>
-      </nav>
+      <HomeNavigation />
 
-      <main className="px-6 pb-10 mx-auto max-w-6xl">
+      <main className="px-6 pb-16 mx-auto max-w-6xl">
         <div className="hidden w-full h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/40 to-zinc-300/0" />
 
-        {/* Single-screen layout (desktop): hero + skills + education */}
-        <section className="min-h-[calc(100vh-140px)] md:min-h-[calc(100vh-160px)] grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-6 md:py-10">
+        {/* Hero */}
+        <section className="md:min-h-[calc(100vh-160px)] grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-5 md:py-8">
           {/* Hero */}
           <div className="md:col-span-6 lg:col-span-7 text-center md:text-left">
             <h1 className="z-10 text-4xl sm:text-6xl md:text-7xl font-display whitespace-nowrap">
@@ -47,128 +41,151 @@ export default function Home() {
                 Sannidhi Shetty
               </span>
             </h1>
-            <p className="mt-4 text-base md:text-lg leading-7 text-zinc-300/90 max-w-xl mx-auto md:mx-0">
-              Full Stack Developer (Java/Spring Boot, Node.js, TypeScript) building
-              reliable systems and clean UI. Based in Montreal, Canada.
-            </p>
+            <div className="mt-6 space-y-4 max-w-2xl mx-auto md:mx-0">
+              <p className="text-base md:text-lg leading-7 text-zinc-300/90">
+                I am a Full-Stack Software Engineer with over 4 years of experience
+                building modern, scalable web applications. Always curious and
+                experimenting with new tech, I enjoy creating software that truly
+                helps users and businesses.
+              </p>
+              <p className="text-base md:text-lg leading-7 text-zinc-300/90">
+                I love crafting smooth user experiences, designing robust backend
+                systems, and seeing projects evolve from “just a concept” to fully
+                production-ready systems. Driven by a passion for building reliable,
+                user-focused applications, I excel at tackling challenging problems
+                and turning ideas into real-world solutions that make a difference.
+              </p>
+            </div>
 
-            <div
-              id="contact"
-              className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start"
-            >
+            <div className="mt-8 max-w-2xl mx-auto md:mx-0">
               <Link
-                href="mailto:sannidhishetty9@gmail.com"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-700/80 bg-zinc-950/30 px-4 py-2 text-sm text-zinc-200/90 hover:text-zinc-100 hover:border-zinc-500 transition"
-              >
-                <Mail className="h-4 w-4" />
-                Email
-              </Link>
-              <Link
-                href="https://linkedin.com/in/sannidhishetty9"
+                href="/Sannidhi_Resume.pdf"
                 target="_blank"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-700/80 bg-zinc-950/30 px-4 py-2 text-sm text-zinc-200/90 hover:text-zinc-100 hover:border-zinc-500 transition"
+                className="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-7 py-3 text-sm md:text-base font-semibold text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 transition"
               >
-                <Linkedin className="h-4 w-4" />
-                LinkedIn
+                <Download className="mr-2 h-5 w-5" />
+                Download CV
               </Link>
+            </div>
+
+            <div className="mt-10 max-w-2xl mx-auto md:mx-0">
               <Link
-                href="https://github.com/sannidhi470"
-                target="_blank"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-700/80 bg-zinc-950/30 px-4 py-2 text-sm text-zinc-200/90 hover:text-zinc-100 hover:border-zinc-500 transition"
+                href="/#contact"
+                className="inline-flex items-center justify-center rounded-2xl border border-zinc-700/80 bg-zinc-950/20 px-7 py-3 text-sm md:text-base font-semibold text-zinc-200/90 hover:text-zinc-100 hover:border-zinc-500 transition"
               >
-                <Github className="h-4 w-4" />
-                GitHub
+                Contact Me
               </Link>
             </div>
           </div>
 
           {/* Right panel */}
           <div className="md:col-span-6 lg:col-span-5 space-y-4">
-            <div className="rounded-2xl border border-zinc-700/70 bg-zinc-950/30 p-5 md:p-7">
-              <div className="flex items-baseline justify-between">
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-400 font-display">
-                  Skills
-                </h2>
-                <span className="text-xs text-zinc-500">Quick snapshot</span>
+            <div className="relative overflow-hidden rounded-3xl bg-zinc-950/40 p-3 md:p-4 border border-zinc-900/80">
+              {/* subtle glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -z-10"
+              >
+                <div className="absolute -top-24 left-1/2 h-[320px] w-[320px] -translate-x-1/2 rounded-full bg-gradient-to-r from-fuchsia-500/15 via-indigo-500/12 to-cyan-500/12 blur-3xl" />
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                {[
-                  {
-                    label: "Languages",
-                    items: ["TypeScript", "JavaScript", "Java", "Python", "SQL"],
-                  },
-                  {
-                    label: "Backend",
-                    items: ["Spring Boot", "Node.js", "Express", "REST", "GraphQL"],
-                  },
-                  {
-                    label: "Frontend",
-                    items: ["React", "Angular", "Vue", "Tailwind"],
-                  },
-                  {
-                    label: "Cloud/DevOps",
-                    items: ["AWS", "Docker", "Kubernetes", "CI/CD", "Kafka"],
-                  },
-                ].map((group) => (
-                  <div key={group.label} className="min-w-0">
-                    <div className="text-sm font-medium text-zinc-200/90">
-                      {group.label}
-                    </div>
-                    <div className="mt-2.5 flex flex-wrap gap-2">
-                      {group.items.map((item) => (
-                        <span
-                          key={item}
-                          className="text-xs leading-6 text-zinc-200/95 border border-zinc-700/80 rounded-full px-3 py-0.5 bg-zinc-950/40"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="rounded-2xl border border-zinc-700/70 bg-zinc-950/30 p-5 md:p-7">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-400 font-display">
-                Education
-              </h2>
-              <div className="mt-4 space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="text-base font-medium text-zinc-200">
-                      Concordia University
-                    </div>
-                    <div className="text-sm text-zinc-400">
-                      M.S., Applied Computer Science · Montreal, Canada
-                    </div>
-                  </div>
-                  <div className="text-sm text-zinc-500 whitespace-nowrap">
-                    2023–2025
-                  </div>
-                </div>
-
-                <div className="h-px bg-zinc-800/70" />
-
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="text-base font-medium text-zinc-200">
-                      SIES Graduate School of Technology
-                    </div>
-                    <div className="text-sm text-zinc-400">
-                      B.E., Computer Engineering · Mumbai, India
-                    </div>
-                  </div>
-                  <div className="text-sm text-zinc-500 whitespace-nowrap">
-                    2016–2020
-                  </div>
-                </div>
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-black">
+                <Image
+                  src={ProfilePhoto}
+                  alt="Portrait"
+                  priority
+                  quality={95}
+                  placeholder="blur"
+                  sizes="(max-width: 768px) 90vw, (max-width: 1024px) 40vw, 460px"
+                  className="h-full w-full object-cover object-center rounded-2xl scale-[1.02] transform-gpu"
+                />
               </div>
             </div>
           </div>
         </section>
 
+        <ProjectsSection />
+
         <div className="hidden w-full h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/40 to-zinc-300/0" />
+
+        {/* Experience + Education timeline (scrollable) */}
+        <section id="experience" className="scroll-mt-24">
+          <ExperienceTimeline
+            items={
+              [
+              {
+                id: "kampus-2025",
+                kind: "work",
+                org: "Kampus Media",
+                title: "Software Developer",
+                when: "May 2025 – Present",
+                side: "right",
+                logo: KampusMediaLogo,
+                summary:
+                  "Kampus Media is a company with a digital repository of ethically modeled voices, making high‑quality audio easier to access for audiobook production and distribution.\n\nIn this role, I’m building an end-to-end platform that transforms multilingual documents into finished audiobooks. I own both the user experience and the backend workflow, with a focus on reliability, security, and consistent delivery at scale. I collaborate closely with leadership—sharing progress through demos and regular updates—which has strengthened my communication, ownership, and product thinking. The work continues to broaden my technical range and deepen how I design scalable, production-ready systems.",
+                tech: [
+                  "React",
+                  "TypeScript",
+                  "Cloudflare Workers",
+                  "PostgreSQL",
+                  "AWS",
+                  "Docker",
+                ],
+              },
+              {
+                id: "concordia-2023",
+                kind: "edu",
+                org: "Concordia University",
+                title: "M.S., Applied Computer Science",
+                when: "Sept 2023 – Apr 2025",
+                side: "left",
+                logo: ConcordiaLogo,
+                summary:
+                  "With a strong foundation in backend development, I pursued a Master’s degree in Applied Computer Science to broaden my skill set and transition into a full-stack role. Exposure to modern frontend technologies during this journey sparked a growing interest in building complete, user-facing solutions alongside robust backend systems. This advanced degree has strengthened my ability to design and manage complex, end-to-end software projects, reflecting my commitment to continuous learning and my ambition to excel across all areas of software engineering.",
+              },
+              {
+                id: "deloitte-2022",
+                kind: "work",
+                org: "Deloitte",
+                title: "Full Stack Developer",
+                when: "Mar 2022 – Aug 2023",
+                side: "right",
+                logo: DeloitteLogo,
+                summary:
+                  "I worked as a Full-Stack Developer on two major US-based enterprise projects for Northwell Health (healthcare) and Kroger (e-commerce), collaborating closely with client stakeholders to understand real-world business and domain requirements. I leveraged Java and Spring Boot to design, develop, and test scalable RESTful APIs within a microservices architecture, supporting the modernization of legacy systems and their transition to a cloud-native environment. This role strengthened my Java expertise and provided hands-on experience with AWS, Docker-based deployments, and CI/CD pipeline maintenance, enabling the delivery of reliable, production-ready solutions.",
+                tech: ["Java 8", "Spring Boot", "MySQL", "AWS", "Docker", "JUnit"],
+              },
+              {
+                id: "newgen-2020",
+                kind: "work",
+                org: "Newgen Software",
+                title: "Software Engineer",
+                when: "Aug 2020 – Feb 2022",
+                side: "left",
+                logo: NewgenLogo,
+                summary:
+                  "Revamped a bank account opening platform using React, TypeScript, and Java by actively addressing evolving client change requests and translating business requirements into functional enhancements. Enhanced and extended multiple account opening forms, introduced new UI components and action buttons, and implemented additional client-side and server-side validations to improve data accuracy and overall user experience. Gained hands-on experience with Kafka and MQ for real-time inter-service communication, PostgreSQL and Oracle database management, and CI/CD automation using Jenkins to streamline deployments.",
+                tech: ["React", "TypeScript", "Java", "Kafka", "Jenkins", "PostgreSQL"],
+              },
+              {
+                id: "sies-2016",
+                kind: "edu",
+                org: "SIES Graduate School of Technology",
+                title: "B.Tech., Computer Science and Engineering",
+                when: "Feb 2016 – Oct 2020",
+                side: "right",
+                logo: SiesLogo,
+                summary:
+                  "I completed my Bachelor of Technology in Computer Science and Engineering, building a strong foundation in core areas such as databases, networks, operating systems, algorithms and data structures, and software engineering. During my final year, I worked on two major projects: a sentiment analysis system for code-mixed movie reviews using a WordNet-based approach, and a COVID-19 data analysis project utilizing datasets published by Johns Hopkins University. These experiences not only strengthened my technical skills but also fueled my interest in applying computer science concepts to solve real-world problems.",
+              },
+              ] as TimelineItem[]
+            }
+          />
+        </section>
+
+        <SkillsSection />
+        <CertificationsSection />
+        <ContactSection />
       </main>
     </div>
   );
