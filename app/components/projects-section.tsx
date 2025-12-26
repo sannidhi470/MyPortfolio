@@ -33,6 +33,7 @@ const PROJECTS: Project[] = [
     description:
       "My personal portfolio website built with Next.js + React + Tailwind, featuring projects, experience, certifications, and contact.",
     repository: "sannidhi470/MyPortfolio",
+    liveUrl: "https://sannidhishetty.vercel.app/",
     accent: "emerald",
     Icon: Layout,
   },
