@@ -26,6 +26,7 @@ export default function Particles({
 	const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+	const time = useRef(0);
 
 	useEffect(() => {
 		if (canvasRef.current) {
@@ -89,21 +90,32 @@ export default function Particles({
 			canvasRef.current.height = canvasSize.current.h * dpr;
 			canvasRef.current.style.width = `${canvasSize.current.w}px`;
 			canvasRef.current.style.height = `${canvasSize.current.h}px`;
-			context.current.scale(dpr, dpr);
+			// Reset transform so we don't accumulate scales across resizes.
+			context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 		}
 	};
 
 	const circleParams = (): Circle => {
+		const sparkle = Math.random() < 0.08;
 		const x = Math.floor(Math.random() * canvasSize.current.w);
 		const y = Math.floor(Math.random() * canvasSize.current.h);
 		const translateX = 0;
 		const translateY = 0;
-		const size = Math.floor(Math.random() * 2) + 0.1;
+		const size = sparkle
+			? Math.random() * 3 + 2.2
+			: Math.random() * 1.8 + 0.6;
 		const alpha = 0;
-		const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
-		const dx = (Math.random() - 0.5) * 0.2;
-		const dy = (Math.random() - 0.5) * 0.2;
+		const targetAlpha = sparkle
+			? parseFloat((Math.random() * 0.35 + 0.55).toFixed(2))
+			: parseFloat((Math.random() * 0.30 + 0.20).toFixed(2));
+		const dx = (Math.random() - 0.5) * 0.35;
+		const dy = (Math.random() - 0.5) * 0.35;
 		const magnetism = 0.1 + Math.random() * 4;
+		const hue = sparkle
+			? 200 + Math.random() * 120
+			: 190 + Math.random() * 80;
+		const twinkleSpeed = sparkle ? 0.020 + Math.random() * 0.020 : 0.006 + Math.random() * 0.010;
+		const twinkleOffset = Math.random() * Math.PI * 2;
 		return {
 			x,
 			y,
@@ -115,18 +127,37 @@ export default function Particles({
 			dx,
 			dy,
 			magnetism,
+			hue,
+			sparkle,
+			twinkleSpeed,
+			twinkleOffset,
 		};
 	};
 
 	const drawCircle = (circle: Circle, update = false) => {
 		if (context.current) {
-			const { x, y, translateX, translateY, size, alpha } = circle;
-			context.current.translate(translateX, translateY);
+			const { x, y, translateX, translateY, size, alpha, hue, sparkle, twinkleSpeed, twinkleOffset } =
+				circle as Circle & {
+					hue: number;
+					sparkle: boolean;
+					twinkleSpeed: number;
+					twinkleOffset: number;
+				};
+
+			const twinkle = 0.75 + 0.25 * Math.sin(time.current * twinkleSpeed + twinkleOffset);
+			const a = Math.min(1, Math.max(0, alpha * twinkle));
+			const drawX = x + translateX;
+			const drawY = y + translateY;
+
 			context.current.beginPath();
-			context.current.arc(x, y, size, 0, 2 * Math.PI);
-			context.current.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+			context.current.arc(drawX, drawY, size, 0, 2 * Math.PI);
+			// Slightly colored, glowing particles for a more "magical" feel.
+			context.current.fillStyle = `hsla(${hue}, 95%, 78%, ${a})`;
+			context.current.shadowBlur = sparkle ? 18 : 8;
+			context.current.shadowColor = `hsla(${hue}, 95%, 65%, ${Math.min(1, a + 0.15)})`;
 			context.current.fill();
-			context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
+			// Reset per-draw state
+			context.current.shadowBlur = 0;
 
 			if (!update) {
 				circles.current.push(circle);
@@ -167,7 +198,11 @@ export default function Particles({
 	};
 
 	const animate = () => {
+		time.current += 1;
 		clearContext();
+		if (context.current) {
+			context.current.globalCompositeOperation = "lighter";
+		}
 		circles.current.forEach((circle: Circle, i: number) => {
 			// Handle the alpha value
 			const edge = [
@@ -223,6 +258,9 @@ export default function Particles({
 				);
 			}
 		});
+		if (context.current) {
+			context.current.globalCompositeOperation = "source-over";
+		}
 		window.requestAnimationFrame(animate);
 	};
 

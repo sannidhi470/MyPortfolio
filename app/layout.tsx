@@ -74,12 +74,12 @@ export default function RootLayout({
       >
         <Background />
         <Particles
-          className="fixed inset-0 -z-10 opacity-70"
-          quantity={100}
+          className="pointer-events-none fixed inset-0 z-0 opacity-95 mix-blend-screen"
+          quantity={140}
           staticity={70}
           ease={70}
         />
-        <div className="relative min-h-screen">{children}</div>
+        <div className="relative z-10 min-h-screen">{children}</div>
       </body>
     </html>
   );
