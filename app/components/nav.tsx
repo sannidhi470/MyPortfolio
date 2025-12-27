@@ -53,6 +53,12 @@ export const Navigation: React.FC = () => {
 							Certifications
 						</Link>
 						<Link
+							href="/#recommendations"
+							className="duration-200 text-base md:text-lg text-zinc-400 hover:text-zinc-100"
+						>
+							Recommendations
+						</Link>
+						<Link
 							href="/#contact"
 							className="duration-200 text-base md:text-lg text-zinc-400 hover:text-zinc-100"
 						>

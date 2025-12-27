@@ -16,6 +16,7 @@ export function HomeNavigation() {
       { label: "Experience", id: "experience" },
       { label: "Skills", id: "skills" },
       { label: "Certifications", id: "certifications" },
+      { label: "Recommendations", id: "recommendations" },
       { label: "Contact", id: "contact" },
     ],
     [],

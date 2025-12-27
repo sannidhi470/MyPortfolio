@@ -85,11 +85,8 @@ export function ContactSection() {
 			<div className="mx-auto max-w-6xl px-6">
 				<div className="max-w-3xl mx-auto text-center">
 					<h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl font-display">
-						Contact
+						Contact Me
 					</h2>
-					<p className="mt-3 text-sm md:text-base text-zinc-400">
-						Send me a message — I’ll get back to you soon.
-					</p>
 				</div>
 
 				<div className="relative mt-10 overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-950/20 p-6 md:p-10 shadow-[0_20px_70px_rgba(0,0,0,0.45)]">

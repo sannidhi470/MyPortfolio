@@ -5,6 +5,7 @@ import { ExperienceTimeline, type TimelineItem } from "./components/experience-t
 import { SkillsSection } from "./components/skills";
 import { CertificationsSection } from "./components/certifications";
 import { ContactSection } from "./components/contact-section";
+import { RecommendationsSection } from "./components/recommendations";
 import { ProjectsSection } from "./components/projects-section";
 import { HomeNavigation } from "./components/home-nav";
 import ConcordiaLogo from "../CONCORDIA.png";
@@ -185,6 +186,7 @@ export default function Home() {
 
         <SkillsSection />
         <CertificationsSection />
+        <RecommendationsSection />
         <ContactSection />
       </main>
     </div>
