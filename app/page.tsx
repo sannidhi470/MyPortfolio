@@ -17,7 +17,7 @@ import ProfilePhoto from "../1739052285758.jpeg";
 
 export default function Home() {
   return (
-    <div className="relative w-screen min-h-screen overflow-hidden">
+    <div className="relative w-screen min-h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       {/* Aurora / animated glow layer */}
       <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
         <div className="absolute -top-48 left-1/2 h-[680px] w-[680px] -translate-x-1/2 rounded-full bg-gradient-to-r from-fuchsia-500/25 via-indigo-500/20 to-cyan-500/20 blur-3xl animate-aurora" />
