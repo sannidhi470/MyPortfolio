@@ -75,11 +75,11 @@ export function ExperienceTimeline({ items }: { items: TimelineItem[] }) {
                       <div className="flex items-start gap-3">
                         {/* Logo placeholder */}
                         {item.logo ? (
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950/40 overflow-hidden">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950/40 p-1 overflow-hidden">
                             <Image
                               src={item.logo}
                               alt={`${item.org} logo`}
-                              className="h-11 w-11 object-contain"
+                              className="h-full w-full object-contain rounded-lg"
                               priority={idx < 2}
                             />
                           </div>
@@ -177,11 +177,11 @@ export function ExperienceTimeline({ items }: { items: TimelineItem[] }) {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
                       {selected.logo ? (
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950/40 overflow-hidden">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950/40 p-1 overflow-hidden">
                           <Image
                             src={selected.logo}
                             alt={`${selected.org} logo`}
-                            className="h-12 w-12 object-contain"
+                            className="h-full w-full object-contain rounded-lg"
                           />
                         </div>
                       ) : (
