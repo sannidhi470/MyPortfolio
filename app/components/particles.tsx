@@ -79,6 +79,12 @@ export default function Particles({
 		dx: number;
 		dy: number;
 		magnetism: number;
+		// Visual styling
+		hue: number;
+		sparkle: boolean;
+		// Animation
+		twinkleSpeed: number;
+		twinkleOffset: number;
 	};
 
 	const resizeCanvas = () => {
@@ -137,12 +143,7 @@ export default function Particles({
 	const drawCircle = (circle: Circle, update = false) => {
 		if (context.current) {
 			const { x, y, translateX, translateY, size, alpha, hue, sparkle, twinkleSpeed, twinkleOffset } =
-				circle as Circle & {
-					hue: number;
-					sparkle: boolean;
-					twinkleSpeed: number;
-					twinkleOffset: number;
-				};
+				circle;
 
 			const twinkle = 0.75 + 0.25 * Math.sin(time.current * twinkleSpeed + twinkleOffset);
 			const a = Math.min(1, Math.max(0, alpha * twinkle));
