@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Image, { type StaticImageData } from "next/image";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import AzureCertScreenshot from "../../Screenshot 2025-12-26 at 12.22.13 pm.png";
@@ -82,6 +82,26 @@ export function CertificationsSection() {
   const prev = () => setIdx((i) => (i - 1 + certs.length) % certs.length);
   const next = () => setIdx((i) => (i + 1) % certs.length);
 
+  // Mobile swipe support
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    const t = e.touches[0];
+    if (!t) return;
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    const t = e.changedTouches[0];
+    if (!start || !t) return;
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    // Only treat as swipe if it's mostly horizontal and exceeds threshold.
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+    if (dx < 0) next();
+    else prev();
+  };
+
   return (
     <section id="certifications" className="scroll-mt-24 pt-14 md:pt-16">
       <div className="max-w-3xl mx-auto text-center">
@@ -119,7 +139,14 @@ export function CertificationsSection() {
               <div className="relative w-full bg-white">
                 {/* Image slide */}
                 {active.image ? (
-                  <div className="relative w-full aspect-[16/7] overflow-hidden">
+                  <div
+                    className="relative w-full aspect-[16/7] overflow-hidden touch-pan-y"
+                    onTouchStart={onTouchStart}
+                    onTouchEnd={onTouchEnd}
+                    role="group"
+                    aria-roledescription="carousel"
+                    aria-label="Certificate preview (swipe left/right on mobile)"
+                  >
                     <Image
                       src={active.image}
                       alt={`${active.title} certificate`}
