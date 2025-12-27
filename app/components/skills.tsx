@@ -4,6 +4,7 @@ type Skill = {
   name: string;
   logoSrc: string;
   tone?: "indigo" | "emerald" | "amber" | "cyan" | "fuchsia" | "orange";
+  logoClassName?: string;
 };
 
 function toneClasses(tone: Skill["tone"]) {
@@ -38,7 +39,7 @@ function SkillItem({ skill }: { skill: Skill }) {
           src={skill.logoSrc}
           alt={`${skill.name} logo`}
           title={skill.name}
-          className="h-6 w-6 object-contain"
+          className={["h-6 w-6 object-contain", skill.logoClassName ?? ""].join(" ")}
           loading="lazy"
           decoding="async"
         />
@@ -72,8 +73,18 @@ function SkillCard({
 export function SkillsSection() {
   // Source: Sannidhi_Resume.pdf (Technical Skills)
   const backend: Skill[] = [
-    { name: "Java", logoSrc: "https://cdn.simpleicons.org/openjdk/ffffff", tone: "amber" },
-    { name: "Spring Boot", logoSrc: "https://cdn.simpleicons.org/springboot/ffffff", tone: "emerald" },
+    {
+      name: "Java",
+      logoSrc: "/skills/java.jpg",
+      tone: "amber",
+      logoClassName: "h-8 w-8 rounded-md bg-white/95 p-1",
+    },
+    {
+      name: "Spring Boot",
+      logoSrc: "/skills/spring.png",
+      tone: "emerald",
+      logoClassName: "h-8 w-8 rounded-md bg-white/95 p-1",
+    },
     { name: "Python", logoSrc: "https://cdn.simpleicons.org/python/ffffff", tone: "emerald" },
     {
       name: "AWS",
@@ -118,7 +129,12 @@ export function SkillsSection() {
       logoSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/vscode/vscode-original.svg",
       tone: "cyan",
     },
-    { name: "Redis", logoSrc: "https://cdn.simpleicons.org/redis/ffffff", tone: "orange" },
+    {
+      name: "Redis",
+      logoSrc: "/skills/redis.png",
+      tone: "orange",
+      logoClassName: "h-8 w-8 rounded-md bg-white/95 p-1",
+    },
   ];
 
   return (
